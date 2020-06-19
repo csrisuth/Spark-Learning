@@ -1,3 +1,13 @@
+'''
+Bitmex Data Streaming for Kafka
+
+This program is design to pull public tick data from Bitmex, crypo-currency future exchange, 
+using websocket and send data to kafka topic.
+
+Author: Charm Srisuthapan
+Date: Jun 19, 2020
+'''
+
 import json
 import logging
 import time
@@ -12,10 +22,13 @@ if __TESTNET:
 else:
     __ENDPOINT =  "wss://www.bitmex.com/realtime"
 
-# API Key and Secret to connect to BitMEX
+# API Key and Secret to connect to BitMEX, set to None if only need to access public data
 __API_KEY = None
 __API_SECRET = None
 
+# Apache Kafka Setting
+__HOSTNAME = 'localhost:9092'
+__KAFKA_TOPIC = 'bitmex01'
 
 # Get the nearest and second nearest expiration symbol of Future Contracts
 def getSeries():
@@ -42,7 +55,7 @@ def getRecentTrade(ws, prev_row, logger, producer):
         if total_row > prev_row:
             for row_index in range (prev_row, total_row):
                 logger.info("Recent Trades : %s", recent_trades[row_index])
-                producer.send('bitmex01', recent_trades[row_index])
+                producer.send(__KAFKA_TOPIC, recent_trades[row_index])
     except BaseException as e:
         print("Error on_data: %s" % str(e))
     return total_row
@@ -84,7 +97,7 @@ def run(producer):
 
 if __name__ == "__main__":
     # Setup kafka producer properties
-    producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
+    producer = KafkaProducer(bootstrap_servers=[__HOSTNAME],
                          value_serializer=lambda x: 
                          json.dumps(x).encode('utf-8'))  
     
