@@ -15,3 +15,5 @@ This repository was created to demonstrate features of Apache Spark - Structured
 1. Kafka Producer [bitmex_streaming.py](bitmex_streaming.py), This is python code which reads trade data (XBTU20 and XBTM20 contracts) from "wss://www.bitmex.com/realtime", then send them to Kafka topic.
 2. Spark Structured Streaming using Kafka data source [kafka_pyspark.py](kafka_pyspark.py), This pyspark code uses spark structured streaming to subscribe to Kafka topic, perform some data formatting then output to files.
 3. Spark Structured Streaming using file data source [StreamingPlot.ipynb](StreamingPlot.ipynb), This notebook also uses spark structured streaming to watch file (which sink from kafka_pyspark.py), perform some aggregation, and plot line graphs.
+
+[![Sample Code Execution](https://youtu.be/5JMsOet4Ouo/0.jpg)](https://youtu.be/5JMsOet4Ouo)
